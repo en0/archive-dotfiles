@@ -1,0 +1,7 @@
+[user]
+	email = irlaird@gmail.com
+	name = Ian Laird
+[alias]
+    lga = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+[push]
+	default = matching
