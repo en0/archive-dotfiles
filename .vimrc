@@ -15,6 +15,7 @@ set expandtab
 set history=700
 set undolevels=700
 set nofoldenable
+set noshowmode
 
 " Make files need tabs.
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -126,7 +127,7 @@ syntax on
 filetype off
 filetype plugin indent on
 colorscheme wallaby
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14 " GUI font is way to small.
+set guifont=Liberation\ Mono\ for\ Powerline\ 13
 
 " Document Width
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -136,27 +137,28 @@ set fo-=t           " don't automatically wrap text when typing
 set colorcolumn=80  " Set right bar
 highlight ColorColumn ctermbg=233
 
-
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " Plugins
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-" The following plugins where installed through AUR
-"" vim-pathogen-git https://aur.archlinux.org/packages/vim-pathogen-git/
-"" otf-inconsolata-powerline-git https://aur.archlinux.org/packages/otf-inconsolata-powerline-git/
-"" python2-powerline-git https://aur.archlinux.org/packages/python2-powerline-git/
-"" vim-colors-wallaby-git https://aur.archlinux.org/packages/vim-colors-wallaby-git/
-"" vim-fzf (and fzf, tmux) https://aur.archlinux.org/packages/vim-fzf/
-"" vim-python-mode-git https://aur.archlinux.org/packages/vim-python-mode-git/
-"" vimmux https://aur.archlinux.org/packages/vimux/
+" Install Notes
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" vim-pathogen-git
+" vim-colors-wallaby-git
+" vim-airline-git
+" vim-python-mode-git
+" vim-fugitive-git
+" vim-gitgutter-git
+" vim-unite-git
 
 
-" Powerline Config
+" Airline Config
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 set laststatus=2
-set noshowmode
-set showtabline=2
-
+set ttimeoutlen=50
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:bufferline_echo = 0
 
 " Python-Mode
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -217,20 +219,61 @@ noremap <Leader>pi :PymodeRopeRegenerate<CR>
 ""let g:pymode_rope_autoimport_modules = ['os', 'shutil', 'datetime'])
 " Offer to unresolved import object after completion.
 ""let g:pymode_rope_autoimport_import_after_complete = 0
-
-" FZF
+"
+" Fugitive config
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-noremap <C-p> :FZF<CR>
+" Map all unite stuff bound to <Leader>g. G for git ;)
 
-" Vimux
+" General usage
+" ------------
+noremap <Leader>gd :Gdiff<CR>
+
+
+" Unite config
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" All mux commands should be bound to <Leader>t : t for tmux
-map <Leader>tr :call VimuxRunCommand("clear; python2 " . bufname("%"))<CR>
-map <Leader>ts :call VimuxOpenPane()<CR>:call VimuxRunCommand('clear; echo press Ctrl+c to exit prompt.')<CR>:call PromptLoop()<CR>
-noremap <Leader>tt :call VimuxCloseRunner()<CR>
+" Map all unite stuff bound to <Leader>f. F for files ;)
 
-:function PromptLoop()
-:  while 1==1
-:   call VimuxPromptCommand()
-:  endwhile
-:endfunction
+" General usage
+" ------------
+noremap <Leader>ff :Unite file<CR>
+noremap <Leader>fb :Unite buffer<CR>
+noremap <Leader>fc :UniteClose<CR>
+
+" Custom Menus
+" ------------
+let g:unite_source_menu_menus = {}
+let g:unite_source_menu_menus.git = {
+    \ 'description' : '            gestionar repositorios git
+        \                            ⌘ [espacio]g',
+    \}
+let g:unite_source_menu_menus.git.command_candidates = [
+    \['▷ tig                                                        ⌘ ,gt',
+        \'normal ,gt'],
+    \['▷ git status       (Fugitive)                                ⌘ ,gs',
+        \'Gstatus'],
+    \['▷ git diff         (Fugitive)                                ⌘ ,gd',
+        \'Gdiff'],
+    \['▷ git commit       (Fugitive)                                ⌘ ,gc',
+        \'Gcommit'],
+    \['▷ git log          (Fugitive)                                ⌘ ,gl',
+        \'exe "silent Glog | Unite quickfix"'],
+    \['▷ git blame        (Fugitive)                                ⌘ ,gb',
+        \'Gblame'],
+    \['▷ git stage        (Fugitive)                                ⌘ ,gw',
+        \'Gwrite'],
+    \['▷ git checkout     (Fugitive)                                ⌘ ,go',
+        \'Gread'],
+    \['▷ git rm           (Fugitive)                                ⌘ ,gr',
+        \'Gremove'],
+    \['▷ git mv           (Fugitive)                                ⌘ ,gm',
+        \'exe "Gmove " input("destino: ")'],
+    \['▷ git push         (Fugitive, salida por buffer)             ⌘ ,gp',
+        \'Git! push'],
+    \['▷ git pull         (Fugitive, salida por buffer)             ⌘ ,gP',
+        \'Git! pull'],
+    \['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
+        \'exe "Git! " input("comando git: ")'],
+    \['▷ git cd           (Fugitive)',
+        \'Gcd'],
+    \]
+nnoremap <Leader>fg :Unite -silent -start-insert menu:git<CR>
