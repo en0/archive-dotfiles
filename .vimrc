@@ -154,6 +154,9 @@ highlight ColorColumn ctermbg=233
 
 " Airline Config
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Note: you need UTF8 support and a Poweline patched font
+" /etc/locale.conf
+"     LANG=en_US.utf8
 set laststatus=2
 set ttimeoutlen=50
 let g:airline_powerline_fonts = 1
