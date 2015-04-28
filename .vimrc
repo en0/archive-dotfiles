@@ -72,24 +72,6 @@ map <Leader>wmj <C-w>J
 " Flip to next window and make it full screen
 map <Leader>wX <C-w>x:resize 100<CR>:vertical resize 85<CR>
 
-" Onmipop
-" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" Better navigation through omnicomplete options list
-set completeopt=longest,menuone
-function! OmniPopup(action)
-    if pumvisible()
-        if a:action == 'j'
-            return "\<C-N>"
-        elseif a:action == 'k'
-            return "\<C-P>"
-        endif
-    endif
-    return a:action
-endfunction
-
-inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
-
 " Remove highlight of last search
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 noremap <C-n> :nohl<CR>
@@ -137,9 +119,14 @@ set fo-=t           " don't automatically wrap text when typing
 set colorcolumn=80  " Set right bar
 highlight ColorColumn ctermbg=233
 
+
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " Plugins
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" With Pathogen
+execute pathogen#infect()
+execute pathogen#helptags()
 
 " Install Notes
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -147,9 +134,12 @@ highlight ColorColumn ctermbg=233
 " vim-colors-wallaby-git
 " vim-airline-git
 " vim-python-mode-git
+" vim-jedi
 " vim-fugitive-git
 " vim-gitgutter-git
 " vim-unite-git
+" vim-proc
+" vim-youcompleteme
 
 
 " Airline Config
@@ -163,120 +153,110 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:bufferline_echo = 0
 
-" Python-Mode
-" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" Map all Python-Mode keys to <Leader>p for Python ;)
 
-" Generic Stuff
+" Fugitive config
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+" Python-Jedi
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" https://github.com/davidhalter/jedi-vim/
+let g:jedi#popup_select_first = 0
+let g:jedi#use_tabs_not_buffers = 0
+let g:jedi#show_call_signatures = 1
+let g:jedi#completions_enabled = 0 " Not sure, but this makes stuff work.
+
+" Turn off Keybindings
+let g:jedi#goto_assignments_command = ""
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = ""
+let g:jedi#usages_command = ""
+let g:jedi#rename_command = ""
+
+" Auto complete stuff
+let g:jedi#completions_command = "<C-Space>"
+
+" Python-mode Config
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" Genral Things
 " ------------
-" right column divider off.
+let g:pymode_rope_completion = 0
 let g:pymode_options_colorcolumn = 0
-" Quickfix same size always, thanks
 let g:pymode_quickfix_minheight = 4
 let g:pymode_quickfix_maxheight = 4
-" Generic document lookup
-noremap <Leader>pD :PymodeDoc 
-
-
-" Runtime
-" ------------
-" Disable pymode breakpoints. I like mine more
 let g:pymode_breakpoint = 0
-" Disable running. It sucks
-let g:pymode_run = 1
-" Map in a better breakpoint using ipdb (needs to be install)
-noremap <Leader>pb Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
-
+let g:pymode_run = 0
 
 " Lint
 " ------------
 " Values may be chosen from: `pylint`, `pep8`, `mccabe`, `pep257`, `pyflakes`.
-let g:pymode_lint_checkers = ['pyflakes','pep8','mccabe']
-" Run code check Manually
-noremap <Leader>pc :call pymode#lint#check()<CR>
-noremap <F5> :call pymode#lint#toggle()<CR>
-
+let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
 
 " Rope
 " ------------
-" Find Usage
-let g:pymode_rope_find_it_bind = '<Leader>pf'
-" Goto Definition
-let g:pymode_rope_goto_definition_bind = '<Leader>pg'
-" Goto Documentation
-let g:pymode_rope_show_doc_bind = '<Leader>pd'
-" Refactor
-let g:pymode_rope_rename_bind = '<Leader>pr'
-" Undo Refactor
-noremap <Leader>pu :PymodeRopeUndo<CR>
-" Redo Refactor
-noremap <Leader>pR :PymodeRopeRedo<CR>
-
-" Initialize python project
-noremap <Leader>pI :PymodeRopeNewProject<CR>
-" Rescan project
-noremap <Leader>pi :PymodeRopeRegenerate<CR>
-
-" This might be worth looking into
-" Load modules to autoimport by default       *'g:pymode_rope_autoimport_modules'*
-""let g:pymode_rope_autoimport_modules = ['os', 'shutil', 'datetime'])
-" Offer to unresolved import object after completion.
-""let g:pymode_rope_autoimport_import_after_complete = 0
-"
-" Fugitive config
-" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" Map all unite stuff bound to <Leader>g. G for git ;)
-
-" General usage
-" ------------
-noremap <Leader>gd :Gdiff<CR>
-
+" Unbind all the built-ins
+let g:pymode_rope_find_it_bind = ''
+let g:pymode_rope_goto_definition_bind = ''
+let g:pymode_rope_show_doc_bind = ''
+let g:pymode_rope_rename_bind = ''
 
 " Unite config
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" Map all unite stuff bound to <Leader>f. F for files ;)
+
+" Git Menu
+" ------------
+let g:unite_source_menu_menus = {}
+let g:unite_source_menu_menus.git = { 'description' : 'Manage your git repository.' }
+let g:unite_source_menu_menus.git.command_candidates = [
+    \['▷ git status     - Show the working tree status.', 'Gstatus'],
+    \['▷ git diff       - Show changes between commits and trees.', 'Gdiff'],
+    \['▷ git commit     - Record changes to the repository.', 'Gcommit'],
+    \['▷ git log        - Show commit logs.', 'exe "silent Glog | Unite quickfix"'], 
+    \['▷ git blame      - Show the auther of each line.', 'Gblame'],
+    \['▷ git stage      - Add file contents to the staging area.', 'Gwrite'],
+    \['▷ git checkout   - Checkout a branch or path to the working tree.', 'Gread'],
+    \['▷ git rm         - Remove files from the working tree and from index.', 'Gremove'],
+    \['▷ git mv         - Move or rename a file, directory, or symlink.', 'exe "Gmove " input("destino: ")'],
+    \['▷ git push       - Update remote refs along with associated objects.', 'Git!  push'], 
+    \['▷ git pull       - Fetch from and integrate with another repository or local branch.', 'Git!  pull'], 
+    \['▷ git prompt     - Open a prompt to run git commands.', 'exe "Git!  " input("comando git: ")'],
+    \]
+
+" Jedi Menu
+" ------------
+let g:unite_source_menu_menus.jedi = { 'description' : 'Manage your Python code.' }
+let g:unite_source_menu_menus.jedi.command_candidates = [
+    \['↑ Goto Definition', 'call pymode#rope#goto_definition()'],
+    \['↓ Goto Assignments', 'call pymode#rope#find_it()'],
+    \['⇅ Show Usage', 'call jedi#usages()'], 
+    \['☺ Open Documentation', 'call pymode#rope#show_doc()'],
+    \['↳ Rename Object', 'call pymode#rope#rename()'],
+    \['↳ Rename Module', 'call pymode#rope#rename_module()'],
+    \['↻ Redo Refactor', 'PymodeRopeRedo'],
+    \['↺ Undo Refactor', 'PymodeRopeUndo'],
+    \['✓ Validate Code', 'call pymode#lint#check()'],
+    \['⚘ Create Project', 'PymodeRopeNewProject'],
+    \]
+
+
+" Key Bindings for plugins
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" Python-mode Stuff
+" ------------
+noremap <F5> :call pymode#lint#toggle()<CR>
+noremap <Leader>pb Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+
 
 " General usage
 " ------------
-noremap <Leader>ff :Unite file<CR>
-noremap <Leader>fb :Unite buffer<CR>
+noremap <Leader>f :Unite -start-insert file_rec/async<CR>
+noremap <Leader>b :Unite buffer<CR>
 noremap <Leader>fc :UniteClose<CR>
+noremap <Leader>g :Unite -silent -start-insert menu:git<CR>
+noremap <Leader>p :Unite -silent -start-insert menu:jedi<CR>
 
-" Custom Menus
+
+" Fugitive (Git)
 " ------------
-let g:unite_source_menu_menus = {}
-let g:unite_source_menu_menus.git = {
-    \ 'description' : '            gestionar repositorios git
-        \                            ⌘ [espacio]g',
-    \}
-let g:unite_source_menu_menus.git.command_candidates = [
-    \['▷ tig                                                        ⌘ ,gt',
-        \'normal ,gt'],
-    \['▷ git status       (Fugitive)                                ⌘ ,gs',
-        \'Gstatus'],
-    \['▷ git diff         (Fugitive)                                ⌘ ,gd',
-        \'Gdiff'],
-    \['▷ git commit       (Fugitive)                                ⌘ ,gc',
-        \'Gcommit'],
-    \['▷ git log          (Fugitive)                                ⌘ ,gl',
-        \'exe "silent Glog | Unite quickfix"'],
-    \['▷ git blame        (Fugitive)                                ⌘ ,gb',
-        \'Gblame'],
-    \['▷ git stage        (Fugitive)                                ⌘ ,gw',
-        \'Gwrite'],
-    \['▷ git checkout     (Fugitive)                                ⌘ ,go',
-        \'Gread'],
-    \['▷ git rm           (Fugitive)                                ⌘ ,gr',
-        \'Gremove'],
-    \['▷ git mv           (Fugitive)                                ⌘ ,gm',
-        \'exe "Gmove " input("destino: ")'],
-    \['▷ git push         (Fugitive, salida por buffer)             ⌘ ,gp',
-        \'Git! push'],
-    \['▷ git pull         (Fugitive, salida por buffer)             ⌘ ,gP',
-        \'Git! pull'],
-    \['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
-        \'exe "Git! " input("comando git: ")'],
-    \['▷ git cd           (Fugitive)',
-        \'Gcd'],
-    \]
-nnoremap <Leader>fg :Unite -silent -start-insert menu:git<CR>
