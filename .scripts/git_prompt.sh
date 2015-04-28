@@ -40,11 +40,7 @@ function _not_commit() {
 function _get_branch() {
     _branch=$(git status --branch --porcelain | grep ^## | cut -d' ' -f2)
     _local_branch="$(echo -n ${_branch} | cut -d'.' -f1)"
-    _ahead="+"
-    if [[ $_branch =~ "..." ]]; then 
-        _ahead=""
-    fi
-    echo -n "  ${_local_branch}${_ahead} "
+    echo -n "  ${_local_branch} "
 }
 
 function _get_root() {
