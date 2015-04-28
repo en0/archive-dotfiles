@@ -107,7 +107,7 @@ au InsertLeave * match ExtraWhitespace /\s\+$/
 set t_Co=256
 syntax on
 filetype off
-"filetype plugin indent on
+filetype plugin indent on
 colorscheme wallaby
 set guifont=Liberation\ Mono\ for\ Powerline\ 13
 
@@ -134,10 +134,12 @@ execute pathogen#helptags()
 " vim-colors-wallaby-git
 " vim-airline-git
 " vim-python-mode-git
+" vim-jedi
 " vim-fugitive-git
 " vim-gitgutter-git
 " vim-unite-git
 " vim-proc
+" vim-youcompleteme
 
 
 " Airline Config
