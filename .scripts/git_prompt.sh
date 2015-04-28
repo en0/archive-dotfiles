@@ -299,7 +299,7 @@ __git_ps1 ()
 	local detached=no
 	local ps1pc_start='\u@\h:\w '
 	local ps1pc_end='\$ '
-	local printf_format=' %s '
+	local printf_format=' %s'
 
 	case "$#" in
 		2|3)	pcmode=yes
@@ -410,13 +410,13 @@ __git_ps1 ()
 				r="|AM/REBASE"
 			fi
 		elif [ -f "$g/MERGE_HEAD" ]; then
-			r="|MERGING"
+			r=" | MERGING"
 		elif [ -f "$g/CHERRY_PICK_HEAD" ]; then
-			r="|CHERRY-PICKING"
+			r=" | CHERRY-PICKING"
 		elif [ -f "$g/REVERT_HEAD" ]; then
-			r="|REVERTING"
+			r=" | REVERTING"
 		elif [ -f "$g/BISECT_LOG" ]; then
-			r="|BISECTING"
+			r=" | BISECTING"
 		fi
 
 		if [ -n "$b" ]; then
