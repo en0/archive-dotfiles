@@ -42,7 +42,7 @@ function _not_commit() {
 
 function _get_branch() {
     _branch=$(git status --branch --porcelain | grep ^##)
-    _local_branch=$(echo -n ${_branch} | grep -oP "(?<=^##\ )\w+")
+    _local_branch=$(echo -n ${_branch} | grep -oP "^##\ \K[A-Za-z0-9_-]+")
 
     _count=$(echo -n ${_branch} | grep -oP "\[\w+\ \K(\d+)(?=\])")
     _ahead=""
