@@ -17,6 +17,7 @@ function _for_commit() {
     _add=$(git status --porcelain | grep ^A | wc -l)
     _del=$(git status --porcelain | grep ^D | wc -l)
     _mod=$(git status --porcelain | grep ^M | wc -l)
+    _mod=$[_mod + $(git status --porcelain | grep ^R | wc -l)]
     _sum=$[_add + _del + _mod]
     if [[ _sum -gt 0 ]]; then
         echo -n " +:${_add} ~:${_mod} -:${_del} "
@@ -27,8 +28,10 @@ function _for_commit() {
 
 function _not_commit() {
     _add=$(git status --porcelain | grep ^\?? | wc -l)
+    _add=$[_add + $(git status --porcelain | grep ^\ A | wc -l)]
     _del=$(git status --porcelain | grep ^\ D | wc -l)
     _mod=$(git status --porcelain | grep ^\ M | wc -l)
+    _mod=$[_mod + $(git status --porcelain | grep ^\ R | wc -l)]
     _sum=$[_add + _del + _mod]
     if [[ _sum -gt 0 ]]; then
         echo -n " +:${_add} ~:${_mod} -:${_del} "
@@ -38,9 +41,15 @@ function _not_commit() {
 }
 
 function _get_branch() {
-    _branch=$(git status --branch --porcelain | grep ^## | cut -d' ' -f2)
-    _local_branch="$(echo -n ${_branch} | cut -d'.' -f1)"
-    echo -n "  ${_local_branch} "
+    _branch=$(git status --branch --porcelain | grep ^##)
+    _local_branch=$(echo -n ${_branch} | grep -oP "(?<=^##\ )\w+")
+
+    _ahead=$(echo -n ${_branch} | grep -oP "\[\w+\ \K(\d+)(?=\])")
+    if [ ! -z "${_ahead}" ]; then
+        _ahead=" +${_ahead}"
+    fi
+
+    echo -n "  ${_local_branch}${_ahead} "
 }
 
 function _get_root() {
