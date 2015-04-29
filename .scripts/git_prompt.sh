@@ -59,7 +59,8 @@ function _get_root() {
         echo -n "\w"
         return 1
     fi
-    echo -n "$(git rev-parse --show-prefix)${1}"
+    base_name="$(basename $(realpath $(git rev-parse --git-dir)/..))"
+    echo -n "${base_name}/$(git rev-parse --show-prefix)${1}"
 }
 
 function set_ps1() {
@@ -72,7 +73,7 @@ function set_ps1() {
     staged="\[${COLOR_COMMIT}\]$(_for_commit)\[${COLOR_COMMIT_ARROW}\]"
     unstaged="\[${COLOR_UNSTAGED}\]$(_not_commit)\[${COLOR_UNSTAGED_ARROW_END}\]\[${RESET_COLOR}\]"
 
-    PS1="${branch}${staged}${unstaged} \[\e[1;36m\]\u\[\e[m\] \[\e[1;34m\]/$(_get_root '')\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\033[m\]"
+    PS1="${branch}${staged}${unstaged} \[\e[1;36m\]\u\[\e[m\] \[\e[1;34m\]$(_get_root '')\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\033[m\]"
 }
 
 function set_prompt_header() {
@@ -83,7 +84,7 @@ function set_prompt_header() {
     branch="${COLOR_BRANCH}$(_get_branch)${COLOR_BRANCH_ARROW}"
     staged="${COLOR_COMMIT}$(_for_commit)${COLOR_COMMIT_ARROW}"
     unstaged="${COLOR_UNSTAGED}$(_not_commit)${COLOR_UNSTAGED_ARROW}"
-    prodj_root="${COLOR_PATH} /$(_get_root ' ')${COLOR_PATH_ARROW}${RESET_COLOR}"
+    prodj_root="${COLOR_PATH} $(_get_root ' ')${COLOR_PATH_ARROW}${RESET_COLOR}"
 
     echo -e "${branch}${staged}${unstaged}${prodj_root}"
 }
