@@ -59,7 +59,8 @@ function _get_root() {
         echo -n "\w"
         return 1
     fi
-    base_name="$(basename $(realpath $(git rev-parse --git-dir)/..))"
+    _base_path=$(realpath $(git rev-parse --git-dir)/..)
+    base_name=$(basename "${_base_path}")
     echo -n "${base_name}/$(git rev-parse --show-prefix)${1}"
 }
 
