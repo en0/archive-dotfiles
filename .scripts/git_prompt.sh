@@ -44,9 +44,11 @@ function _get_branch() {
     _branch=$(git status --branch --porcelain | grep ^##)
     _local_branch=$(echo -n ${_branch} | grep -oP "(?<=^##\ )\w+")
 
-    _ahead=$(echo -n ${_branch} | grep -oP "\[\w+\ \K(\d+)(?=\])")
-    if [ ! -z "${_ahead}" ]; then
-        _ahead=" +${_ahead}"
+    _count=$(echo -n ${_branch} | grep -oP "\[\w+\ \K(\d+)(?=\])")
+    _ahead=""
+    if [ ! -z "${_count}" ]; then
+        _symbol=$(echo -n ${_branch} | grep -oP "\[\K\w+(?=\ \d+\])" | sed -e s/behind/-/ -e s/ahead/+/)
+        _ahead=" ${_symbol}${_count}"
     fi
 
     echo -n "  ${_local_branch}${_ahead} "
