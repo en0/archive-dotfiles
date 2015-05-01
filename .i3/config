@@ -258,6 +258,9 @@ bar {
         }
 }
 
+## Other program
+bindsym $mod+q exec "qalculate-gtk"
+
 ## Notification engine
 exec dunst -config ~/.dunstrc
 
