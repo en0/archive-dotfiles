@@ -23,6 +23,7 @@ client.urgent           "#292929" "#e00000" "#FFFFFF" "#292929"
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:DejaVu Sans Serif 10
+#font pango:DejaVu Sans Mono for Powerline 9
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -38,18 +39,19 @@ bindsym $mod+o exec i3lock -p win -i /home/en0/.wallpaper/win7desktop.png
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt -title "TERM" -e tmux
+#bindsym $mod+Return exec urxvt -title "TERM" -e tmux
+bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+c kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+p exec dmenu_run
-bindsym $mod+p exec dmenu_run -fn '-*-dejavu sans mono-medium-r-normal--15-80-*-*-*-*-iso10646-1' -p 'Run' -sf '#AE7D24' -nb '#111111' -nf '#AAAAAA' -sb '#292929'
+bindsym $mod+p exec dmenu_run -fn '-*-dejavu sans mono-medium-r-normal--13-80-*-*-*-*-iso10646-1' -p 'Run' -sf '#AE7D24' -nb '#111111' -nf '#AAAAAA' -sb '#292929'
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -fn '-*-dejavu sans mono-medium-r-normal--15-80-*-*-*-*-iso10646-1' -p 'App' -sf '#ae7d24' -nb '#111111' -nf '#AAAAAA' -sb '#292929'"
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -fn '-*-dejavu sans mono-medium-r-normal--13-80-*-*-*-*-iso10646-1' -p 'App' -sf '#ae7d24' -nb '#111111' -nf '#AAAAAA' -sb '#292929'"
 
 # change focus
 bindsym $mod+j focus left
@@ -104,7 +106,7 @@ bindsym $mod+a focus parent
 # switch to workspace
 bindsym $mod+1 workspace 1:SRC
 bindsym $mod+2 workspace 2:WWW
-bindsym $mod+3 workspace 3:IRC
+bindsym $mod+3 workspace 3:COM
 bindsym $mod+4 workspace 4:TRM
 bindsym $mod+5 workspace MISC
 bindsym $mod+6 workspace MISC
@@ -116,7 +118,7 @@ bindsym $mod+0 workspace MISC
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1:SRC
 bindsym $mod+Shift+2 move container to workspace 2:WWW
-bindsym $mod+Shift+3 move container to workspace 3:IRC
+bindsym $mod+Shift+3 move container to workspace 3:COM
 bindsym $mod+Shift+4 move container to workspace 4:TRM
 bindsym $mod+Shift+5 move container to workspace MISC
 bindsym $mod+Shift+6 move container to workspace MISC
@@ -226,11 +228,15 @@ bindsym $mod+x exec i3-input -P 'EXEC: '
 bindsym $mod+u [urgent=latest] focus
 
 ## Assignments
-assign [window_role="browser"] 2:WWW
 assign [class="Gvim"] 1:SRC
-#assign [class="URxvt"] 4:TRM
-assign [title="IRC"] 3:IRC
-assign [class="Gajim"] 3:IRC
+assign [window_role="browser"] 2:WWW
+assign [window_role="pop-up" class="Chromium"] 3:COM
+assign [class="Thunderbird"] 3:COM
+assign [class="HipChat"] 3:COM
+assign [class="Spotify"] MISC
+
+for_window [class="Qalculate-gtk"] floating enabled
+for_window [window_role="pop-up"] floating enabled
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

@@ -140,6 +140,7 @@ execute pathogen#helptags()
 " vim-unite-git
 " vim-proc
 " vim-youcompleteme
+" NerdTREE (Git)
 
 
 " Airline Config
@@ -260,3 +261,8 @@ noremap <Leader>p :Unite -silent -start-insert menu:jedi<CR>
 
 " Fugitive (Git)
 " ------------
+
+
+" NerdTREE (Git)
+" ------------
+noremap <C-p> :NERDTreeToggle<CR>
