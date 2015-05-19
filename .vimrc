@@ -40,6 +40,12 @@ set noswapfile
 
 let mapleader = ","
 
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Alias Commands
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+command WW w !sudo tee %
+
 " Buffers
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 map <Leader>n :bp<CR>
