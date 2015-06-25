@@ -46,6 +46,12 @@ let mapleader = ","
 
 command WW w !sudo tee %
 
+" Text
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Copy and paste text
+map <Leader>C :w !xsel -i -b<CR>
+map <leader>P :r!xsel -b<CR>
+
 " Buffers
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 map <Leader>n :bp<CR>
@@ -65,18 +71,19 @@ map <Leader>wa :resize -2<CR>
 map <Leader>wq :resize +2<CR>
 map <Leader>wc <C-w>c
 
-map <Leader>wh <C-w>h
-map <Leader>wl <C-w>l
-map <Leader>wk <C-w>k
-map <Leader>wj <C-w>j
+"" I really dont use these Commenting them out to see if i miss them.
+"map <Leader>wh <C-w>h
+"map <Leader>wl <C-w>l
+"map <Leader>wk <C-w>k
+"map <Leader>wj <C-w>j
 
-map <Leader>wmh <C-w>H
-map <Leader>wml <C-w>L
-map <Leader>wmk <C-w>K
-map <Leader>wmj <C-w>J
+"map <Leader>wmh <C-w>H
+"map <Leader>wml <C-w>L
+"map <Leader>wmk <C-w>K
+"map <Leader>wmj <C-w>J
 
-" Flip to next window and make it full screen
-map <Leader>wX <C-w>x:resize 100<CR>:vertical resize 85<CR>
+"" Flip to next window and make it full screen
+"map <Leader>wX <C-w>x:resize 100<CR>:vertical resize 85<CR>
 
 " Remove highlight of last search
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
