@@ -50,7 +50,7 @@ command WW w !sudo tee %
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 map <Leader>n :bp<CR>
 map <Leader>m :bn<CR>
-map <Leader>c :bd<CR>
+map <Leader>c :bp<CR>:bd #<CR>
 
 " Windows
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
