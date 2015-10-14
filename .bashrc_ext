@@ -1,0 +1,12 @@
+#
+# ~/.bashrc
+#
+
+if [ -d "~/.scripts/git_prompt.sh" ] ; then
+    . ~/.scripts/git_prompt.sh
+    export PROMPT_COMMAND=set_ps1
+fi
+
+if [ -d "$HOME/.bin" ] ; then
+    PATH="$HOME/.bin:$PATH"
+fi
