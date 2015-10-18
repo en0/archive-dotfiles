@@ -2,9 +2,8 @@
 # ~/.bashrc
 #
 
-if [ -f "$HOME/.scripts/git_prompt.sh" ] ; then
-    . $HOME/.scripts/git_prompt.sh
-    export PROMPT_COMMAND=set_ps1
+if [ -f "$HOME/.prompt.sh" ] ; then
+    . $HOME/.prompt.sh
 fi
 
 if [ -d "$HOME/.bin" ] ; then
