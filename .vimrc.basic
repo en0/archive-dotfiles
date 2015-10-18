@@ -1,0 +1,163 @@
+" ~/.vimrc - Ian Laird 2015
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" General Stuff
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+set hidden
+set mouse=a
+set number
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+set history=700
+set undolevels=700
+set nofoldenable
+set noshowmode
+
+" Make files need tabs.
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+autocmd FileType make setlocal noexpandtab
+
+" Make search case insensitive
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" Disable backup and swap files
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set nobackup
+set nowritebackup
+set noswapfile
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Key Bindings
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+let mapleader = ","
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Alias Commands
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+command WW w !sudo tee %
+
+" Text
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Copy and paste text
+map <Leader>C :w !xsel -i -b<CR>
+map <leader>P :r!xsel -b<CR>
+
+" Buffers
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+map <Leader>n :bp<CR>
+map <Leader>m :bn<CR>
+map <Leader>c :bp<CR>:bd #<CR>
+
+" Windows
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+map <Leader>w= <C-w>=
+map <Leader>wm :resize 100<CR>:vertical resize 85<CR>
+map <Leader>wv :vertical resize 85<CR>
+map <Leader>wo :only<CR>
+
+map <Leader>w. :vertical resize -2<CR>
+map <Leader>w, :vertical resize +2<CR>
+map <Leader>wa :resize -2<CR>
+map <Leader>wq :resize +2<CR>
+map <Leader>wc <C-w>c
+
+" Remove highlight of last search
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+noremap <C-n> :nohl<CR>
+vnoremap <C-n> :nohl<CR>
+inoremap <C-n> :nohl<CR>
+
+" Better code block indents
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+vnoremap < <gv
+vnoremap > >gv
+
+" Easier formatting of paragraphs
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+vmap Q gq
+nmap Q gqap
+
+" Toggle Spell check
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+map <F7> :setlocal spell! spelllang=en_us<CR>
+
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Look and Feel
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" Show whitespace
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=233 guibg=233
+au InsertLeave * match ExtraWhitespace /\s\+$/
+
+" Colors
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set t_Co=256
+syntax on
+filetype off
+filetype plugin indent on
+colorscheme wallaby
+set guifont=Liberation\ Mono\ for\ Powerline\ 13
+
+" Document Width
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set tw=79           " width of document (used by gd)
+set nowrap          " don't automatically wrap on load
+set fo-=t           " don't automatically wrap text when typing
+set colorcolumn=80  " Set right bar
+highlight ColorColumn ctermbg=233
+
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Plugins
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" With Pathogen
+execute pathogen#infect()
+execute pathogen#helptags()
+
+" Install Notes
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" vim-pathogen-git
+" vim-colors-wallaby-git
+" vim-airline-git
+" vim-gitgutter-git
+" vim-unite-git
+" NerdTREE (Git)
+
+
+" Airline Config
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Note: you need UTF8 support and a Poweline patched font
+" /etc/locale.conf
+"     LANG=en_US.utf8
+set laststatus=2
+set ttimeoutlen=50
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:bufferline_echo = 0
+
+
+" Key Bindings for plugins
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" General usage
+" ------------
+noremap <Leader>f :Unite -start-insert file_rec/async<CR>
+noremap <Leader>b :Unite buffer<CR>
+noremap <Leader>fc :UniteClose<CR>
+
+" NerdTREE (Git)
+" ------------
+noremap <C-p> :NERDTreeToggle<CR>
