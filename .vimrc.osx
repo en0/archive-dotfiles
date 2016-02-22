@@ -1,0 +1,218 @@
+" ~/.vimrc - Ian Laird 2015
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" General Stuff
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+set hidden
+set mouse=a
+set number
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+set history=700
+set undolevels=700
+set nofoldenable
+set noshowmode
+set backspace=indent,eol,start
+set nostartofline
+set shortmess=atI
+
+" Make files need tabs.
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+autocmd FileType make setlocal noexpandtab
+
+" Make search case insensitive
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" Disable backup and swap files
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set nobackup
+set nowritebackup
+set noswapfile
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Key Bindings
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+let mapleader = ","
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Alias Commands
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+command WW w !sudo tee %
+
+" Text
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Copy and paste text
+"map <Leader>C :w !xsel -i -b<CR>
+map <Leader>C :w !pbcopy<CR>
+"map <leader>P :r!xsel -b<CR>
+map <Leader>P :r!pbpaste<CR>
+
+" Buffers
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+map <Leader>n :bp<CR>
+map <Leader>m :bn<CR>
+map <Leader>c :bp<CR>:bd #<CR>
+
+" Windows
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+map <Leader>w= <C-w>=
+map <Leader>wm :resize 100<CR>:vertical resize 85<CR>
+map <Leader>wv :vertical resize 85<CR>
+map <Leader>wo :only<CR>
+
+map <Leader>w. :vertical resize -2<CR>
+map <Leader>w, :vertical resize +2<CR>
+map <Leader>wa :resize -2<CR>
+map <Leader>wq :resize +2<CR>
+map <Leader>wc <C-w>c
+
+" Remove highlight of last search
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+noremap <C-n> :nohl<CR>
+vnoremap <C-n> :nohl<CR>
+inoremap <C-n> :nohl<CR>
+
+" Better code block indents
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+vnoremap < <gv
+vnoremap > >gv
+
+" Easier formatting of paragraphs
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+vmap Q gq
+nmap Q gqap
+
+" Toggle Spell check
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+map <F7> :setlocal spell! spelllang=en_us<CR>
+
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Look and Feel
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+autocmd ColorScheme * set cursorline
+autocmd ColorScheme * set cursorcolumn
+autocmd ColorScheme * highlight Search cterm=None ctermfg=darkred ctermbg=233
+autocmd ColorScheme * highlight CursorLine cterm=None ctermbg=233
+autocmd ColorScheme * highlight CursorColumn cterm=None ctermbg=233
+
+" Show whitespace
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=233 guibg=233
+au InsertLeave * match ExtraWhitespace /\s\+$/
+
+" Colors
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set t_Co=256
+syntax on
+filetype off
+filetype plugin indent on
+colorscheme wallaby
+set guifont=Liberation\ Mono\ for\ Powerline\ 13
+
+" Document Width
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set tw=79           " width of document (used by gd)
+set nowrap          " don't automatically wrap on load
+set fo-=t           " don't automatically wrap text when typing
+set colorcolumn=80  " Set right bar
+highlight ColorColumn ctermbg=233
+
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Plugins
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" With Pathogen
+execute pathogen#infect()
+execute pathogen#helptags()
+
+" Install Notes
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" vim-pathogen-git
+" vim-colors-wallaby-git
+" vim-airline-git
+" vim-gitgutter-git
+" vim-unite-git
+" NerdTREE (Git)
+
+
+" YCM
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+"autocmd CompleteDone * pclose
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+set splitbelow
+
+
+" Airline Config
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" Note: you need UTF8 support and a Poweline patched font
+" /etc/locale.conf
+"     LANG=en_US.utf8
+set laststatus=2
+set ttimeoutlen=50
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:bufferline_echo = 0
+
+
+" Unite config
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+let g:unite_source_menu_menus = {}
+
+" Codes Menu
+" ------------
+let g:unite_source_menu_menus = {}
+let g:unite_source_menu_menus.code = { 'description' : 'Interact with code.' }
+let g:unite_source_menu_menus.code.command_candidates = [
+    \['▷ GoTo Definition  - Find the declaration or definition of the current tag.', 'YcmCompleter GoTo'],
+    \['▷ GoTo References  - Find all references made to the current tag.', 'YcmCompleter GoToReferences'],
+    \['▷ Open Docs        - Find documentation about the current tag.', 'YcmCompleter GetDoc'],
+    \]
+
+" Git Menu
+" ------------
+let g:unite_source_menu_menus.git = { 'description' : 'Manage your git repository.' }
+let g:unite_source_menu_menus.git.command_candidates = [
+    \['▷ git status     - Show the working tree status.', 'Gstatus'],
+    \['▷ git diff       - Show changes between commits and trees.', 'Gdiff'],
+    \['▷ git commit     - Record changes to the repository.', 'Gcommit'],
+    \['▷ git log        - Show commit logs.', 'exe "silent Glog | Unite quickfix"'], 
+    \['▷ git blame      - Show the auther of each line.', 'Gblame'],
+    \['▷ git stage      - Add file contents to the staging area.', 'Gwrite'],
+    \['▷ git checkout   - Checkout a branch or path to the working tree.', 'Gread'],
+    \['▷ git rm         - Remove files from the working tree and from index.', 'Gremove'],
+    \['▷ git mv         - Move or rename a file, directory, or symlink.', 'exe "Gmove " input("destino: ")'],
+    \['▷ git push       - Update remote refs along with associated objects.', 'Git!  push'], 
+    \['▷ git pull       - Fetch from and integrate with another repository or local branch.', 'Git!  pull'], 
+    \['▷ git prompt     - Open a prompt to run git commands.', 'exe "Git!  " input("comando git: ")'],
+    \]
+
+
+" Key Bindings for plugins
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" General usage
+" ------------
+noremap <Leader>f :Unite -start-insert file_rec/async<CR>
+noremap <Leader>b :Unite buffer<CR>
+noremap <Leader>fc :UniteClose<CR>
+noremap <Leader>g :Unite -silent -start-insert menu:git<CR>
+noremap <Leader>p :Unite -silent -start-insert menu:code<CR>
+
+" NerdTREE (Git)
+" ------------
+noremap <C-p> :NERDTreeToggle<CR>
+
+let g:OmniSharp_host = "http://10.211.55.3:2000"
