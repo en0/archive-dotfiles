@@ -216,3 +216,24 @@ noremap <Leader>p :Unite -silent -start-insert menu:code<CR>
 noremap <C-p> :NERDTreeToggle<CR>
 
 let g:OmniSharp_host = "http://10.211.55.3:2000"
+
+
+" Custom Functions
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" Open URLs
+" -----------
+function! HandleURL()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;]*')
+  echo s:uri
+  if s:uri != ""
+    silent exec "!open '".s:uri."'"
+  else
+    echo "No URI found in line."
+  endif
+endfunction
+
+
+" Key Bindings for custom functions.
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+noremap <leader>u :call HandleURL()<cr>
