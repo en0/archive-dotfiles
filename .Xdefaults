@@ -1,6 +1,6 @@
 URxvt.depth:            32
 URxvt.scrollBar:        false
-URxvt.font:             xft:DejaVu Sans Mono for Powerline:size=17:antialias=true
+URxvt.font:             xft:DejaVu Sans Mono for Powerline:size=12:antialias=true
 
 ! special
 *.foreground:   #b7b8b9
