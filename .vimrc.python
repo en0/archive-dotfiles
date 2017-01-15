@@ -1,5 +1,20 @@
 " ~/.vimrc - Ian Laird 2015
 
+" Install Notes
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" vim-pathogen-git
+" vim-colors-wallaby-git
+" vim-airline-git
+" vim-python-mode-git
+" vim-jedi
+" vim-fugitive-git
+" vim-gitgutter-git
+" vim-unite-git
+" vim-proc
+" vim-youcompleteme
+" NerdTREE (Git)
+
+
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " General Stuff
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -126,20 +141,6 @@ highlight ColorColumn ctermbg=233
 " With Pathogen
 execute pathogen#infect()
 execute pathogen#helptags()
-
-" Install Notes
-" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" vim-pathogen-git
-" vim-colors-wallaby-git
-" vim-airline-git
-" vim-python-mode-git
-" vim-jedi
-" vim-fugitive-git
-" vim-gitgutter-git
-" vim-unite-git
-" vim-proc
-" vim-youcompleteme
-" NerdTREE (Git)
 
 
 " Airline Config
