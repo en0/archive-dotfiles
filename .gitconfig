@@ -1,7 +1,29 @@
 [user]
-	email = irlaird@gmail.com
 	name = Ian Laird
-[alias]
-	lga = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+	email = irlaird@gmail.com
+
+[core]
+    editor = vim --noplugin
+    # filemode = false
+    # autocrlf = false
+
+[color]
+    ui = true
+
+[merge]
+    tool = vimdiff
+
+[mergetool]
+    keeptemporaries = false
+    keepbackups = false
+    prompt = false
+    trustexitcode = false
+
 [push]
 	default = matching
+
+[alias]
+    last = log -1 --stat
+    lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+    statusmon = status -s
+    logmon = log --author='Ian Laird' -n4 --graph --pretty='short'

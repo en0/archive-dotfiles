@@ -19,20 +19,22 @@ client.urgent           "#292929" "#e00000" "#FFFFFF" "#292929"
 
 # Font
 font pango:DejaVu Sans Serif 10
-bindsym $mod+o exec i3lock -p win -i /home/en0/.wallpaper/win7desktop.png
+
+# Screen Lock
+bindsym $mod+o exec i3lock -t -i /home/ilaird/Pictures/cassini.png
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
 
 # kill focused window
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -fn '-*-dejavu sans mono-medium-r-normal--13-80-*-*-*-*-iso10646-1' -p 'App' -sf '#ae7d24' -nb '#111111' -nf '#AAAAAA' -sb '#292929'"
-bindsym $mod+p exec dmenu_run -fn '-*-dejavu sans mono-medium-r-normal--13-80-*-*-*-*-iso10646-1' -p 'Run' -sf '#AE7D24' -nb '#111111' -nf '#AAAAAA' -sb '#292929'
+bindsym $mod+p exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -fn '-*-dejavu sans mono-medium-r-normal--13-80-*-*-*-*-iso10646-1' -p 'App' -sf '#ae7d24' -nb '#111111' -nf '#AAAAAA' -sb '#292929'"
+bindsym $mod+d exec dmenu_run -fn '-*-dejavu sans mono-medium-r-normal--13-80-*-*-*-*-iso10646-1' -p 'Run' -sf '#AE7D24' -nb '#111111' -nf '#AAAAAA' -sb '#292929'
 
 # change focus
 bindsym $mod+h focus left
@@ -73,10 +75,10 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace 1:SRC
-bindsym $mod+2 workspace 2:WWW
-bindsym $mod+3 workspace 3:COM
-bindsym $mod+4 workspace 4:TRM
+bindsym $mod+1 workspace HTTP
+bindsym $mod+2 workspace CODE
+bindsym $mod+3 workspace TERM
+bindsym $mod+4 workspace COMM
 bindsym $mod+5 workspace MISC
 bindsym $mod+6 workspace MISC
 bindsym $mod+7 workspace MISC
@@ -85,16 +87,28 @@ bindsym $mod+9 workspace MISC
 bindsym $mod+0 workspace MISC
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1:SRC
-bindsym $mod+Shift+2 move container to workspace 2:WWW
-bindsym $mod+Shift+3 move container to workspace 3:COM
-bindsym $mod+Shift+4 move container to workspace 4:TRM
+bindsym $mod+Shift+1 move container to workspace HTTP
+bindsym $mod+Shift+2 move container to workspace CODE
+bindsym $mod+Shift+3 move container to workspace TERM
+bindsym $mod+Shift+4 move container to workspace COMM
 bindsym $mod+Shift+5 move container to workspace MISC
 bindsym $mod+Shift+6 move container to workspace MISC
 bindsym $mod+Shift+7 move container to workspace MISC
 bindsym $mod+Shift+8 move container to workspace MISC
 bindsym $mod+Shift+9 move container to workspace MISC
 bindsym $mod+Shift+0 move container to workspace MISC
+
+## Assignments
+workspace CODE output Virtual1
+workspace HTTP output Virtual3
+workspace COMM output Virtual2
+workspace TERM output Virtual1
+
+assign [window_role="browser"] HTTP
+assign [window_role="pop-up" class="Chromium"] COMM
+assign [class="Spotify"] MISC
+
+for_window [window_role="pop-up"] floating enabled
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -134,20 +148,10 @@ bindsym $mod+Tab workspace back_and_forth
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
+        bindsym j resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -197,21 +201,12 @@ bindsym $mod+i exec i3-input -F 'rename workspace to "%s"' -P 'Rename Workspace:
 bindsym $mod+x exec i3-input -P 'EXEC: '
 bindsym $mod+u [urgent=latest] focus
 
-## Assignments
-assign [window_role="browser"] 2:WWW
-assign [window_role="pop-up" class="Chromium"] 3:COM
-assign [class="Thunderbird"] 3:COM
-assign [class="HipChat"] 3:COM
-assign [class="Spotify"] MISC
-
-for_window [window_role="pop-up"] floating enabled
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
         workspace_buttons yes
         position bottom
-        status_command i3status --config ~/.i3/status.conf
+        status_command i3status --config ~/.config/i3/status.conf
         #status_command i3status
         colors {
             background "#111111"
@@ -228,6 +223,9 @@ bar {
 
 ## Notification engine
 exec dunst -config ~/.dunstrc
+
+## Find Displays (Parallels Desktop)
+exec --no-startup-id /usr/bin/prlcc
 
 ## Reset last background
 exec --no-startup-id "sh -c \"cat ~/.fehbg | sh\""
