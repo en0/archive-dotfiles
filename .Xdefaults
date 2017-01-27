@@ -1,6 +1,13 @@
+URxvt.termName:         rxvt-unicode-256color
 URxvt.depth:            32
+URxvt.letterSpace:      -1
 URxvt.scrollBar:        false
 URxvt.font:             xft:DejaVu Sans Mono for Powerline:size=12:antialias=true
+!URxvt.internalBorder:   1
+
+URxvt.perl-ext-common:  default,matcher
+URxvt.urlLauncher:      xdg-open
+URxvt.matcher.button:   1
 
 ! special
 *.foreground:   #b7b8b9
