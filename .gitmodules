@@ -1,3 +1,7 @@
 [submodule ".zprezto"]
 	path = .zprezto
 	url = git@github.com:en0/prezto
+[submodule "fonts"]
+	path = fonts
+	url = git@github.com:powerline/fonts.git
+	branch = master
