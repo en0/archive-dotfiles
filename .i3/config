@@ -18,7 +18,7 @@ client.unfocused        "#292929" "#111111" "#AAAAAA" "#292929"
 client.urgent           "#292929" "#e00000" "#FFFFFF" "#292929"
 
 # Font
-font pango:DejaVu Sans Serif 10
+font pango:DejaVu Sans Serif 20
 
 # Screen Lock
 bindsym $mod+o exec i3lock -t -i /home/ilaird/Pictures/cassini.png
