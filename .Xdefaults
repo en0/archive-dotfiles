@@ -1,9 +1,16 @@
+Xft.dpi:                96
+Xft.antialias:          true
+Xft.rgba:               none
+Xft.hinting:            true
+Xft.autohint:           true
+Xft.hintstyle:          hintsligh
+
 URxvt.termName:         rxvt-unicode-256color
 URxvt.depth:            32
-URxvt.letterSpace:      -1
+!URxvt.letterSpace:      -5
 URxvt.scrollBar:        false
 URxvt.font:             xft:DejaVu Sans Mono for Powerline:size=12:antialias=true
-!URxvt.internalBorder:   1
+URxvt*boldFont:         xft:DejaVu Sans Mono for Powerline:bold:size=12
 
 URxvt.perl-ext-common:  default,matcher
 URxvt.urlLauncher:      xdg-open
