@@ -18,7 +18,7 @@ client.unfocused        "#292929" "#111111" "#AAAAAA" "#292929"
 client.urgent           "#292929" "#e00000" "#FFFFFF" "#292929"
 
 # Font
-font pango:DejaVu Sans Mono 20
+font pango:DejaVu Sans Mono 12
 
 # Screen Lock
 bindsym $mod+o exec i3lock -t -i /home/ilaird/Pictures/cassini.png
@@ -99,10 +99,10 @@ bindsym $mod+Shift+9 move container to workspace MISC
 bindsym $mod+Shift+0 move container to workspace MISC
 
 ## Assignments
-workspace CODE output Virtual1
-workspace HTTP output Virtual3
-workspace COMM output Virtual2
-workspace TERM output Virtual1
+workspace CODE output HDMI2
+workspace HTTP output HDMI1
+workspace COMM output eDP1
+workspace TERM output HDMI2
 
 assign [window_role="browser"] HTTP
 assign [window_role="pop-up" class="Chromium"] COMM
@@ -233,7 +233,10 @@ bar {
 exec dunst -config ~/.dunstrc
 
 ## Find Displays (Parallels Desktop)
-exec --no-startup-id /usr/bin/prlcc
+#exec --no-startup-id /usr/bin/prlcc
+
+## Setup display profile.
+exec --no-startup-id ~/.scripts/select-profile.sh eDP1=~/.screenlayout/LaptopProfile.sh eDP1_HDMI1_HDMI2=~/.screenlayout/DesktopProfile.sh
 
 ## Reset last background
 exec --no-startup-id "sh -c \"cat ~/.fehbg | sh\""
