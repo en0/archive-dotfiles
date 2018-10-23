@@ -27,6 +27,10 @@ set softtabstop=4
 set shiftwidth=4
 set shiftround
 set expandtab
+set tw=100
+set nowrap
+set fo-=t
+set colorcolumn=110
 
 let g:python3_host_prog = '/Users/ilaird/.venv/bin/python'
 let g:deoplete#enable_at_startup = 1
@@ -54,14 +58,21 @@ vnoremap > >gv
 vmap Q gq
 nmap Q gqap
 map <F7> :setlocal spell! spelllang=en_us<CR>
-
 command WW w !sudo tee %
-colorschem wallaby
 
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=233 guibg=233
 autocmd FileType make setlocal noexpandtab
 autocmd FileType typescript map <F2> :TSRename<CR>
 autocmd FileType typescript map <Leader>q :Denite menu:qlts<CR>
+autocmd ColorScheme * set cursorline
+autocmd ColorScheme * set cursorcolumn
+autocmd ColorScheme * highlight Search cterm=None ctermfg=darkred ctermbg=233
+autocmd ColorScheme * highlight CursorLine cterm=None ctermbg=233
+autocmd ColorScheme * highlight CursorColumn cterm=None ctermbg=233
+autocmd ColorScheme * highlight ColorColumn ctermbg=233
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkred guibg=233
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+
+colorscheme wallaby
 
 let s:menus = {}
 let s:menus.qlts = { 'description': 'Quick List options for Typescript' }
